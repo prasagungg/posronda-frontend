@@ -1,5 +1,6 @@
 {
   "name": "posronda",
+  "homepage": "https://posronda.xyz",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

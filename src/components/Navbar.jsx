@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-import { AiOutlineHome, AiFillHome } from "react-icons/ai";
+import { AiOutlineHome, AiFillHome, AiOutlinePlus } from "react-icons/ai";
 
 function Navbar() {
   const location = useLocation();
@@ -15,37 +15,41 @@ function Navbar() {
 
   return (
     <nav className="navbar bg-primary-gray">
-      <div className="container mx-auto px-2 py-2 h-full flex justify-between">
-        <div className="w-1/4">
+      <div className="container mx-auto py-2 h-full flex justify-between">
+        <div className="mobile:w-2/4 sm:w-1/4">
           <Link className="font-grape text-2xl font-bold" to="/">
             Pos Ronda
           </Link>
         </div>
-        <div className="w-2/4 flex justify-between">
-          <div class="form-control">
+        <div className="mobile:w-2/4 bigMobile:w-2/4 md:w-2/4 sm:w-3/4 lg:w-2/4 xl:w-2/4 flex justify-between">
+          <div className="form-control mobile:hidden bigMobile:hidden sm:block">
             <input
               type="text"
               placeholder="Search"
-              class="input input-bordered"
+              className="input input-bordered"
             />
           </div>
-          <button class="btn btn-ghost btn-circle">
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => navigate("/")}
+          >
             {pathMatchRoute("/") ? (
-              <AiFillHome
-                onClick={() => navigate("/")}
-                className="w-6 h-6 hover:cursor-pointer"
-              />
+              <AiFillHome className="w-6 h-6 hover:cursor-pointer" />
             ) : (
-              <AiOutlineHome
-                onClick={() => navigate("/")}
-                className="w-6 h-6 hover:cursor-pointer"
-              />
+              <AiOutlineHome className="w-6 h-6 hover:cursor-pointer" />
             )}
           </button>
 
-          <div class="dropdown dropdown-end">
-            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-              <div class="w-10 rounded-full">
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => navigate("/")}
+          >
+            <AiOutlinePlus className="w-6 h-6 hover:cursor-pointer" />
+          </button>
+
+          <div className="dropdown dropdown-end">
+            <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
                 <img
                   src="https://cdn.discordapp.com/attachments/785540914323914785/961555377063882792/unknown.png"
                   alt="logo-profile"
@@ -53,8 +57,8 @@ function Navbar() {
               </div>
             </label>
             <ul
-              tabindex="0"
-              class="mt-5 p-2 shadow-lg menu menu-compact dropdown-content bg-primary-gray rounded-box w-52"
+              tabIndex="0"
+              className="mt-5 p-2 shadow-lg menu menu-compact dropdown-content bg-primary-gray rounded-box w-52"
             >
               <li>
                 <Link to="/profile">Profile</Link>
