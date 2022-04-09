@@ -1,13 +1,11 @@
 import React from "react";
-import Card from "../components/base/Card";
-import Layout from "../components/Layout";
+import Layout from "../components/layouts/Layout";
+import ListCard from "../components/posts/ListCard";
 
 function Home() {
   return (
     <Layout>
-      <Card>
-        <h1>Oke</h1>
-      </Card>
+      <ListCard />
     </Layout>
   );
 }
