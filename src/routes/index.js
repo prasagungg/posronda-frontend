@@ -1,17 +1,20 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { AuthRoute, ShouldRoute } from "../utils";
 
 //pages
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
+import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
 
 function index() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </Router>
+    <Switch>
+      <ShouldRoute path="/login" component={Login} />
+      <AuthRoute exact path="/" component={Home} />
+      <AuthRoute exact path="/" component={Profile} />
+      <Route exact path="/404" component={NotFound} />
+    </Switch>
   );
 }
 

@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import history from "../../utils/history";
 
 import { AiOutlineHome, AiFillHome, AiOutlinePlus } from "react-icons/ai";
 
 function Navbar() {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const pathMatchRoute = (route) => {
     if (route === location.pathname) {
@@ -31,7 +31,7 @@ function Navbar() {
           </div>
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => navigate("/")}
+            onClick={() => history.push("/")}
           >
             {pathMatchRoute("/") ? (
               <AiFillHome className="w-6 h-6 hover:cursor-pointer" />
@@ -42,7 +42,7 @@ function Navbar() {
 
           <button
             className="btn btn-ghost btn-circle"
-            onClick={() => navigate("/")}
+            onClick={() => history.push("/")}
           >
             <AiOutlinePlus className="w-6 h-6 hover:cursor-pointer" />
           </button>
