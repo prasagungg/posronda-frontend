@@ -46,7 +46,6 @@ export const failure = (error) => {
 };
 
 export const signIn = (payload) => {
-  console.log(payload);
   return {
     type: actionTypes.SIGN_IN,
     payload,

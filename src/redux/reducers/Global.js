@@ -1,5 +1,5 @@
-import Immutable from 'seamless-immutable';
-import actionTypes from '../actions/Global';
+import Immutable from "seamless-immutable";
+import actionTypes from "../actions/Global";
 
 export const INIT_STATE = Immutable({
   loading: false,
@@ -8,10 +8,10 @@ export const INIT_STATE = Immutable({
   confirmForm: false,
   notif: {
     open: false,
-    variant: 'success',
-    message: 'SUCCESS',
-    title: 'SUCCESS',
-    socket: false
+    variant: "success",
+    message: "SUCCESS",
+    title: "SUCCESS",
+    socket: false,
   },
   dialog: false,
   notifications: null,
@@ -19,10 +19,10 @@ export const INIT_STATE = Immutable({
   confirm: {
     open: false,
     warning: false,
-    message: 'You won’t be able to recover this in the future!',
-    title: '',
-    handler: () => {}
-  }
+    message: "You won’t be able to recover this in the future!",
+    title: "",
+    handler: () => {},
+  },
 });
 
 const global = (state = INIT_STATE, action) => {
@@ -47,8 +47,8 @@ const global = (state = INIT_STATE, action) => {
           variant: state.notif.variant,
           message: state.notif.message,
           title: state.notif.title,
-          socket: state.notif.socket
-        }
+          socket: state.notif.socket,
+        },
       });
     // if receive new chat from socketio
     case actionTypes.NEW_CHAT:
@@ -63,8 +63,8 @@ const global = (state = INIT_STATE, action) => {
       return state.merge({
         confirm: {
           ...state.confirm,
-          open: false
-        }
+          open: false,
+        },
       });
     default:
       return state;

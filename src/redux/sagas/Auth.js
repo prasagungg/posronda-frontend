@@ -1,17 +1,39 @@
 import { takeEvery, put, all, call } from "redux-saga/effects";
 import { baseUrl, getUser, setUser, destroyUser, request } from "../../utils";
 import history from "../../utils/history";
+import { toast } from "react-toastify";
 
-import { notif, loading } from "../actions/Global";
+import { loading } from "../actions/Global";
 import actionTypes, {
   failure,
   // signUpSuccess,
 } from "../actions/Auth";
 
-const notifError = (msg) =>
-  notif({ open: true, variant: "error", message: msg });
-const notifSuccess = (msg) =>
-  notif({ open: true, variant: "success", message: msg });
+const notifError = (msg) => {
+  toast.error(msg, {
+    theme: "dark",
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
+
+const notifSuccess = (msg) => {
+  toast.success(msg, {
+    theme: "dark",
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
 
 function* signIn({ payload }) {
   yield put(loading(true));
@@ -30,16 +52,16 @@ function* signIn({ payload }) {
       expires_in: res.expires_in,
       user: res.user,
     });
-    yield put(notifSuccess(res.message));
-    yield put(loading(false));
+
     yield call(history.push, "/");
-  } catch (err) {
-    console.log(err);
-    // const res = yield err.response.json();
     yield put(loading(false));
-    // if (res.message) {
-    //   yield put(notifError(res.message.message || "Invalid email or password"));
-    // }
+    notifSuccess(res.message);
+  } catch (err) {
+    const res = yield err.response.json();
+    yield put(loading(false));
+    if (res.message) {
+      notifError(res.message);
+    }
   }
 }
 

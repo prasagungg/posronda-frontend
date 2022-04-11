@@ -1,10 +1,11 @@
 import React from "react";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
 import { connect } from "react-redux";
 import { signIn } from "../../redux/actions";
 import withFormik from "../../utils/withFormik";
-import { baseUrl } from "../../utils";
+import Spinner from "../base/Spinner";
 
 const initialValues = {
   username: "",
@@ -27,6 +28,7 @@ const handleLogin = async (payload, ctx) => {
 
 function LoginForm(props) {
   const { values, touched, errors, handleChange, handleSubmit } = props;
+  const { loading } = useSelector((state) => state.global);
 
   const error = (val) => Boolean(touched[val] && errors[val]);
 
@@ -70,8 +72,8 @@ function LoginForm(props) {
           </label>
         )}
       </div>
-      <button className="btn w-full" type="submit">
-        Login
+      <button className="btn w-full" type="submit" disabled={loading}>
+        {loading ? <Spinner /> : "Login"}
       </button>
     </form>
   );
