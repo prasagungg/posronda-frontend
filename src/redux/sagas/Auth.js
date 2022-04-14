@@ -67,13 +67,22 @@ function* signIn({ payload }) {
 
 function* logout() {
   try {
+    const requestURL = `${baseUrl}/auth/logout`;
+    const auth = getUser();
+    const res = yield call(request, requestURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
+
     yield destroyUser();
-    yield put(notifSuccess("Sign-out Success"));
-    yield history.push("/signin");
+    yield history.push("/login");
+    yield put(notifSuccess(res.message));
   } catch (err) {
-    if (err.message) {
-      yield put(failure(err));
-    }
+    // yield put(notifError("ups something when wrong"));
+    console.log(err);
   }
 }
 

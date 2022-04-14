@@ -129,10 +129,9 @@ export const activation = (param) => {
   };
 };
 
-export const logout = (data) => {
+export const logout = () => {
   return {
     type: actionTypes.LOGOUT,
-    data,
   };
 };
 

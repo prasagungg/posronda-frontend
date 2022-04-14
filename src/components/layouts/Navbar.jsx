@@ -1,16 +1,28 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import history from "../../utils/history";
+import { useDispatch } from "react-redux";
 
 import { AiOutlineHome, AiFillHome, AiOutlinePlus } from "react-icons/ai";
 
+import { logout } from "../../redux/actions";
+import { baseUrl, getUser, destroyUser } from "../../utils";
+import { toast } from "react-toastify";
+
 function Navbar() {
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const user = getUser();
 
   const pathMatchRoute = (route) => {
     if (route === location.pathname) {
       return true;
     }
+  };
+
+  const handleLogout = async () => {
+    dispatch(logout());
   };
 
   return (
@@ -66,8 +78,8 @@ function Navbar() {
               <li>
                 <Link to="/settings">Settings</Link>
               </li>
-              <li>
-                <Link to="/logout">Logout</Link>
+              <li onClick={handleLogout}>
+                <h1>Logout</h1>
               </li>
             </ul>
           </div>
