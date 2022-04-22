@@ -4,10 +4,7 @@ import history from "../../utils/history";
 import { toast } from "react-toastify";
 
 import { loading } from "../actions/Global";
-import actionTypes, {
-  failure,
-  // signUpSuccess,
-} from "../actions/Auth";
+import actionTypes, { getProfileSuccess } from "../actions/Auth";
 
 const notifError = (msg) => {
   toast.error(msg, {
@@ -50,7 +47,6 @@ function* signIn({ payload }) {
     yield setUser({
       token: res.token,
       expires_in: res.expires_in,
-      user: res.user,
     });
 
     yield call(history.push, "/");
@@ -61,6 +57,41 @@ function* signIn({ payload }) {
     yield put(loading(false));
     if (res.message) {
       notifError(res.message);
+    }
+  }
+}
+
+function* signUp({ payload, onError }) {
+  yield put(loading(true));
+  const requestURL = `${baseUrl}/auth/register`;
+  const body = JSON.stringify(payload);
+
+  try {
+    const res = yield call(request, requestURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+
+    yield setUser({
+      token: res.token,
+      expires_in: res.expires_in,
+    });
+
+    yield call(history.push, "/");
+    yield put(loading(false));
+    notifSuccess(res.message);
+  } catch (err) {
+    const res = yield err.response.json();
+
+    yield put(loading(false));
+
+    if (typeof res.message == "string") {
+      yield put(notifError(res.message));
+    } else if (typeof res.message == "object") {
+      if (onError) {
+        onError(res.message);
+      }
     }
   }
 }
@@ -86,10 +117,32 @@ function* logout() {
   }
 }
 
+function* getProfile() {
+  try {
+    const requestURL = `${baseUrl}/auth/me`;
+    const auth = getUser();
+
+    const res = yield call(request, requestURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
+      },
+    });
+
+    yield put(getProfileSuccess(res.data));
+  } catch (err) {
+    // yield put(notifError("ups something when wrong"));
+    console.log(err);
+  }
+}
+
 function* oauthSaga() {
   yield all([
     takeEvery(actionTypes.SIGN_IN, signIn),
+    takeEvery(actionTypes.SIGN_UP, signUp),
     takeEvery(actionTypes.LOGOUT, logout),
+    takeEvery(actionTypes.GET_PROFILE, getProfile),
   ]);
 }
 

@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import history from "../../utils/history";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AiOutlineHome, AiFillHome, AiOutlinePlus } from "react-icons/ai";
 
-import { logout } from "../../redux/actions";
-import { baseUrl, getUser, destroyUser } from "../../utils";
-import { toast } from "react-toastify";
+import { logout, getProfile } from "../../redux/actions";
 
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const user = getUser();
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    //fetch data profile
+    dispatch(getProfile());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pathMatchRoute = (route) => {
     if (route === location.pathname) {
@@ -60,13 +64,26 @@ function Navbar() {
           </button>
 
           <div className="dropdown dropdown-end">
-            <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  src="https://cdn.discordapp.com/attachments/785540914323914785/961555377063882792/unknown.png"
-                  alt="logo-profile"
-                />
-              </div>
+            <label
+              tabIndex="0"
+              className={
+                user?.profile_picture
+                  ? `btn btn-ghost btn-circle avatar`
+                  : `btn btn-ghost btn-circle avatar placeholder`
+              }
+            >
+              {user?.profile_picture ? (
+                <div className="w-10 rounded-full">
+                  <div></div>
+                  <img src={user?.profile_picture} alt="logo-profile" />
+                </div>
+              ) : (
+                <div className="bg-neutral-focus text-neutral-content rounded-full w-16">
+                  <span className="text-xl">
+                    {user?.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
             </label>
             <ul
               tabIndex="0"
