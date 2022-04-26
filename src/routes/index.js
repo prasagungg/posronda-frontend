@@ -14,7 +14,7 @@ function index() {
       <ShouldRoute path="/login" component={Login} />
       <ShouldRoute path="/register" component={Register} />
       <AuthRoute exact path="/" component={Home} />
-      <AuthRoute exact path="/" component={Profile} />
+      <AuthRoute exact path="/:username" component={Profile} />
       <Route exact path="/404" component={NotFound} />
     </Switch>
   );

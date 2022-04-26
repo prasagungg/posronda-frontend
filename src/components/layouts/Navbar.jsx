@@ -90,7 +90,7 @@ function Navbar() {
               className="mt-5 p-2 shadow-lg menu menu-compact dropdown-content bg-primary-gray rounded-box w-52"
             >
               <li>
-                <Link to="/profile">Profile</Link>
+                <Link to={`/${user?.username}`}>Profile</Link>
               </li>
               <li>
                 <Link to="/settings">Settings</Link>
