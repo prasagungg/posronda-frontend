@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { getUserProfile } from "../../redux/actions";
 
 function Header() {
+  const { username } = useParams();
+  const dispatch = useDispatch();
+
+  const { profile } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    if (!username) return;
+    dispatch(getUserProfile({ username }));
+  }, [username, dispatch]);
+
+  console.log(profile);
+
   return (
     <div className="flex justify-between justify-items-center my-4">
       <div className="w-1/3 text-center">
